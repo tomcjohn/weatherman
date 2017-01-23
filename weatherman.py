@@ -11,6 +11,9 @@ print('Loading function')
 # aws sns publish --phone-number "+61413514357" --message-attributes '{"AWS.SNS.SMS.SenderID": {"DataType": "String", "StringValue": "weatherman"}}' --message "Test from cli"
 
 
+SNS = boto3.client('sns')
+
+
 def ftp_get(host, dir, file):
     print("Retrieving: ftp://" + host + dir + file)
     ftp = FTP(host)
@@ -50,8 +53,7 @@ def get_city_forecast():
 
 
 def send_as_sms(message):
-    client = boto3.client('sns')
-    client.publish(
+    SNS.publish(
         PhoneNumber='+61413514357',
         Message=message,
         MessageAttributes={
