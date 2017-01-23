@@ -35,7 +35,7 @@ def get_precis_forecast():
     nodes = tree.xpath(xpath_expr)
     short_forecast = nodes[0].text if nodes and len(nodes) > 0 else None
     
-    return max_temp + " - " + short_forecast if max_temp else short_forecast
+    return max_temp + " " + short_forecast if max_temp else short_forecast
 
 
 def get_city_forecast():
@@ -67,11 +67,8 @@ def send_as_sms(message):
 def lambda_handler(event, context):
     precis_forecast = get_precis_forecast()
     detailed_forecast = get_city_forecast()
-    print precis_forecast
-    print detailed_forecast
-    send_as_sms(precis_forecast)
-    time.sleep(1)
-    send_as_sms(detailed_forecast)
+    print precis_forecast + " " + detailed_forecast
+    send_as_sms(precis_forecast + " " + detailed_forecast)
 
     return
 
